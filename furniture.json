@@ -1,0 +1,15 @@
+[
+    {
+        "img":"https://www.ikea.com/PIAimages/0447583_PE597395_S5.JPG",
+        "name": "Sofa",
+        "price": "259",
+        "decFactor":"0.4"
+
+    },
+    {
+        "img":"https://www.ikea.com/gb/en/images/products/pax-wardrobe-white__0855930_pe557276_s5.jpg",
+        "name": "Wardrobe",
+        "price": "120",
+        "decFactor":"1.2"
+    }
+]
