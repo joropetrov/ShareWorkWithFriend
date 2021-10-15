@@ -1,5 +1,5 @@
 function solve() {
-
+// WILL REFACTOR THAT LATES
   let totalPrice = 0;
   let furnitureArr = [];
   let decorationFactor = 0;
