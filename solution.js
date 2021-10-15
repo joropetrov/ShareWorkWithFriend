@@ -64,7 +64,7 @@ function solve() {
     }
 
     JSON.parse(furnitureInput).forEach(element => {
-      hardCodedHTML = `
+      tbodyEl.innerHTML  += `
 <tr>
                                         <td>
                                             <img
@@ -86,8 +86,6 @@ function solve() {
                                             <input id="deleteBox" type="checkbox"/>
                                         </td>
 </tr>`;
-      tbodyEl.innerHTML += hardCodedHTML;
     });
   }
-
 }
