@@ -9,6 +9,7 @@ function solve() {
   let tbodyEl = document.querySelector('tbody');
   let generateButton = document.querySelector('#generate');
   let buyButton = document.querySelector('#buy');
+  let objToUseLater = [];
   
   generateButton.addEventListener('click', createFurnitureView);
 
@@ -17,15 +18,15 @@ function solve() {
   function furnituresReport(e) {
 
       let trFurnitures = document.querySelectorAll('tbody tr');
-
+      // add eventListener for trFurnitures ili if elementa e klicked otdolu napravo, predi if-a
       trFurnitures.forEach(element => {
 
-        if (element.cells[4].children[0].checked) {
+        if (element.querySelector('td input[id="decorationBox"]').checked) {
 
           inputTextArea.value = '';
-          totalPrice += Number(element.cells[2].children[0].innerText);
-          furnitureArr.push(element.cells[1].children[0].innerText);
-          decorationFactor += Number(element.cells[3].children[0].innerText);
+          totalPrice += Number(element.querySelector('td p[class="price"]').innerText);
+          furnitureArr.push(element.querySelector('td p[class="name"]').innerText);
+          decorationFactor += Number(element.querySelector('td p[class="decFactor"]').innerText);
           checkedFurnitures++;
         } else {
           outputTextArea.value = '';
@@ -57,7 +58,7 @@ function solve() {
   function createFurnitureView() {
 
     let furnitureInput = `${inputTextArea.value}`;
-
+    
     if (!IsJsonString(furnitureInput) || furnitureInput == '') {
       inputTextArea.value = "Please enter valid data!!! Copy from furniture.json";
       return;
@@ -71,13 +72,13 @@ function solve() {
                                                 src="${element.img}">
                                         </td>
                                         <td>
-                                            <p>${element.name}</p>
+                                            <p class="name">${element.name}</p>
                                         </td>
                                         <td>
-                                            <p>${element.price}</p>
+                                            <p class="price">${element.price}</p>
                                         </td>
                                         <td>
-                                            <p>${element.decFactor}</p>
+                                            <p class="decFactor">${element.decFactor}</p>
                                         </td>
                                         <td>
                                             <input id="decorationBox" type="checkbox"/>
