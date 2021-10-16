@@ -1,5 +1,5 @@
-function solve() {
-
+function solve() 
+{
   let totalPrice = 0;
   let furnitureArr = [];
   let decorationFactor = 0;
@@ -9,16 +9,18 @@ function solve() {
   let tbodyEl = document.querySelector('tbody');
   let generateButton = document.querySelector('#generate');
   let buyButton = document.querySelector('#buy');
-  let objToUseLater = [];
-  
+
   generateButton.addEventListener('click', createFurnitureView);
 
   buyButton.addEventListener('click', furnituresReport);
 
-  function furnituresReport(e) {
+  event.target.addEventListener('click', deleteTableRowData);
+
+  function furnituresReport() {
 
       let trFurnitures = document.querySelectorAll('tbody tr');
-      // add eventListener for trFurnitures ili if elementa e klicked otdolu napravo, predi if-a
+      outputTextArea.value = '';
+
       trFurnitures.forEach(element => {
 
         if (element.querySelector('td input[id="decorationBox"]').checked) {
@@ -31,21 +33,18 @@ function solve() {
         } else {
           outputTextArea.value = '';
         }
-
       });
-      if (checkedFurnitures !==0 ) {
-        outputTextArea.value = '';
+
+      if (checkedFurnitures !== 0) {
+        
         let purchasedFurnitures = furnitureArr.join(', ');
         outputTextArea.value += `Bought furniture: ${purchasedFurnitures}\n`;
         outputTextArea.value += `Total price: ${totalPrice.toFixed(2)}\n`;
         outputTextArea.value += `Average decoration factor: ${(decorationFactor/checkedFurnitures).toFixed(1)}\n`;
-        totalPrice = 0;
-        checkedFurnitures = 0;
-        decorationFactor = 0;
-        furnitureArr = [];
+        clearFurnitureReport();
       }
     }
-
+  
   function IsJsonString(str) {
     try {
       JSON.parse(str);
@@ -55,37 +54,50 @@ function solve() {
     return true;
   }
 
-  function createFurnitureView() {
+  function deleteTableRowData(e) {
 
+    if (e.target.id == 'deleteBox') {
+      e.target.parentNode.parentNode.remove();
+      outputTextArea.value = '';
+    }
+  }
+  
+  function clearFurnitureReport() {
+    totalPrice = 0;
+    checkedFurnitures = 0;
+    decorationFactor = 0;
+    furnitureArr = [];
+  }
+
+  function createFurnitureView() {
     let furnitureInput = `${inputTextArea.value}`;
     
     if (!IsJsonString(furnitureInput) || furnitureInput == '') {
       inputTextArea.value = "Please enter valid data!!! Copy from furniture.json";
       return;
     }
-
     JSON.parse(furnitureInput).forEach(element => {
       tbodyEl.innerHTML  += `
 <tr>
-                                        <td>
-                                            <img
-                                                src="${element.img}">
-                                        </td>
-                                        <td>
-                                            <p class="name">${element.name}</p>
-                                        </td>
-                                        <td>
-                                            <p class="price">${element.price}</p>
-                                        </td>
-                                        <td>
-                                            <p class="decFactor">${element.decFactor}</p>
-                                        </td>
-                                        <td>
-                                            <input id="decorationBox" type="checkbox"/>
-                                        </td>
-                                        <td>
-                                            <input id="deleteBox" type="checkbox"/>
-                                        </td>
+    <td>
+        <img
+            src="${element.img}">
+    </td>
+    <td>
+        <p class="name">${element.name}</p>
+    </td>
+    <td>
+        <p class="price">${element.price}</p>
+    </td>
+    <td>
+        <p class="decFactor">${element.decFactor}</p>
+    </td>
+    <td>
+        <input id="decorationBox" type="checkbox"/>
+    </td>
+    <td>
+        <input id="deleteBox" type="checkbox"/>
+    </td>
 </tr>`;
     });
   }
