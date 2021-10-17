@@ -43,6 +43,7 @@ function solve()
         outputTextArea.value += `Average decoration factor: ${(decorationFactor/checkedFurnitures).toFixed(1)}\n`;
         clearFurnitureReport();
       }
+      sortEl();
     }
   
   function IsJsonString(str) {
@@ -100,5 +101,29 @@ function solve()
     </td>
 </tr>`;
     });
+  }
+
+  function sortEl(){
+    let compareArr =[];
+    let compareTRbyName = document.querySelectorAll('tbody tr');
+    let newArrResultIndexes = [];
+    compareTRbyName.forEach(el => compareArr.push(el.querySelectorAll('td p.name')[0].innerText));
+    compareArr.sort((a, b) => a.localeCompare(b));
+
+    for (let j = 0; j < compareTRbyName.length; j++) {
+     for (let d = 0; d < compareArr.length; d++) {
+       if ( compareTRbyName[j].querySelectorAll('td p.name')[0].innerText == compareArr[d]) {
+         newArrResultIndexes.push(d);
+       }
+     }
+    }
+    for (let a = 0; a < compareTRbyName.length; a++) {
+      let createDoc = document.createElement('tr');
+      createDoc = compareTRbyName[newArrResultIndexes.indexOf(a)];
+      tbodyEl.appendChild(createDoc);
+    }
+    console.log(compareTRbyName)
+    console.log(newArrResultIndexes);
+    console.log(compareArr)
   }
 }
