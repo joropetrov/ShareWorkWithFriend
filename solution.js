@@ -1,6 +1,5 @@
 function solve() 
 {
-  //fix correctSortedNameIndex indexes when adding new furnitures;
   let totalPrice = 0;
   let furnitureArr = [];
   let decorationFactor = 0;
