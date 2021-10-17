@@ -1,6 +1,6 @@
 function solve() 
 {
-  //fix newArrResultIndexes indexes when adding new furnitures;
+  //fix correctSortedNameIndex indexes when adding new furnitures;
   let totalPrice = 0;
   let furnitureArr = [];
   let decorationFactor = 0;
@@ -11,6 +11,7 @@ function solve()
   let generateButton = document.querySelector('#generate');
   let buyButton = document.querySelector('#buy');
   let sortButton = document.querySelector('#sort');
+  let tbodyTrData;
 
   generateButton.addEventListener('click', createFurnitureView);
 
@@ -79,9 +80,10 @@ function solve()
     if (!IsJsonString(furnitureInput) || furnitureInput == '') {
       inputTextArea.value = "Please enter valid data!!! Copy from furniture.json";
       return;
-    }
+    } //refactor this , it must append child, not crash everything . 
     JSON.parse(furnitureInput).forEach(element => {
-      tbodyEl.innerHTML  += `
+      let trEl = document.createElement('tr');
+      trEl.innerHTML  = `
 <tr>
     <td>
         <img
@@ -103,30 +105,36 @@ function solve()
         <input id="deleteBox" type="checkbox"/>
     </td>
 </tr>`;
+      tbodyEl.appendChild(trEl);
     });
   }
 
   function sortEl(){
-    let compareArr =[];
-    let compareTRbyName = document.querySelectorAll('tbody tr');
-    let newArrResultIndexes = [];
-    compareTRbyName.forEach(el => compareArr.push(el.querySelectorAll('td p.name')[0].innerText));
-    compareArr.sort((a, b) => a.localeCompare(b));
-
-    for (let j = 0; j < compareTRbyName.length; j++) {
-     for (let d = 0; d < compareArr.length; d++) {
-       if ( compareTRbyName[j].querySelectorAll('td p.name')[0].innerText == compareArr[d]) {
-         newArrResultIndexes.push(d);
+    let sortedFurnitureNames = [];
+    let correctSortedNameIndex = [];
+    tbodyTrData = document.querySelectorAll('tbody tr');
+    
+    tbodyTrData.forEach(el => sortedFurnitureNames.push(el.querySelectorAll('td p.name')[0].innerText));
+    sortedFurnitureNames.sort((a, b) => a.localeCompare(b));
+    
+    for (let j = 0; j < tbodyTrData.length; j++) {
+     for (let d = 0; d < sortedFurnitureNames.length; d++) {
+       let currentTrTdname = tbodyTrData[j].querySelector('td p.name').innerText;
+        
+       if (currentTrTdname == sortedFurnitureNames[d]) {
+         correctSortedNameIndex.push(d);
+         sortedFurnitureNames[d] = '';
+         break;
        }
      }
     }
-    for (let a = 0; a < compareTRbyName.length; a++) {
+
+    for (let a = 0; a < tbodyTrData.length; a++) {
       let createDoc = document.createElement('tr');
-      createDoc = compareTRbyName[newArrResultIndexes.indexOf(a)];
+      createDoc = tbodyTrData[correctSortedNameIndex.indexOf(a)];
       tbodyEl.appendChild(createDoc);
     }
-    console.log(compareTRbyName)
-    console.log(newArrResultIndexes);
-    console.log(compareArr)
+    
   }
+  
 }
