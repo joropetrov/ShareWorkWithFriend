@@ -1,5 +1,6 @@
 function solve() 
 {
+  //fix newArrResultIndexes indexes when adding new furnitures;
   let totalPrice = 0;
   let furnitureArr = [];
   let decorationFactor = 0;
@@ -9,10 +10,13 @@ function solve()
   let tbodyEl = document.querySelector('tbody');
   let generateButton = document.querySelector('#generate');
   let buyButton = document.querySelector('#buy');
+  let sortButton = document.querySelector('#sort');
 
   generateButton.addEventListener('click', createFurnitureView);
 
   buyButton.addEventListener('click', furnituresReport);
+
+  sortButton.addEventListener('click', sortEl);
 
   event.target.addEventListener('click', deleteTableRowData);
 
@@ -43,7 +47,6 @@ function solve()
         outputTextArea.value += `Average decoration factor: ${(decorationFactor/checkedFurnitures).toFixed(1)}\n`;
         clearFurnitureReport();
       }
-      sortEl();
     }
   
   function IsJsonString(str) {
